@@ -18,6 +18,9 @@
             transition: transform 0.2s ease;
             transform: translateY(-100%);
         }
+        .alert {
+            transform: translateY(-100%);
+        }
     </style>
     <title>Verify Payment</title>
 </head>
@@ -31,7 +34,7 @@
 
         <p class="py-4 text-xl">Payment ID: {{ id }}</p>
 
-        <p class="py-4 text-lg">Please Wait. <br /> <span class="text-xl pt-2 font-medium">{{ action }} <svg
+        <p class="py-4 text-lg">Please Wait. <br /> <span class="text-xl alert pt-2 font-medium">{{ action }} <svg
                     xmlns="http://www.w3.org/2000/svg" class="inline" width="32" height="32" viewBox="0 0 24 24">
                     <circle cx="4" cy="12" r="3" fill="currentColor">
                         <animate id="svgSpinners3DotsFade0" fill="freeze" attributeName="opacity"
@@ -50,7 +53,7 @@
         <p class="text-sm">© {{ new Date().getFullYear() }}</p>
 
         <Transition mode="out-in">
-            <span v-if="status && status === 'success'" class="absolute w-full top-0 left-0 p-10">
+            <span v-if="status && status === 'success'" class="absolute alert w-full top-0 left-0 p-10">
                 <span class="p-5 text-left bg-green-100 text-green-500 my-1 rounded-lg border border-green-600">
                     <svg class="fill-green-500 mr-3 inline w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="32"
                         height="32" viewBox="0 0 24 24">
