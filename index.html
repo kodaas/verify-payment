@@ -11,15 +11,18 @@
         .v-leave-active {
             transition: transform 0.2s ease;
             transform: translateY(0%);
+            opacity: 1;
         }
 
         .v-enter-from,
         .v-leave-to {
             transition: transform 0.2s ease;
             transform: translateY(-100%);
+            opacity: 0;
         }
         .alert {
             transform: translateY(-100%);
+            opacity: 0;
         }
     </style>
     <title>Verify Payment</title>
