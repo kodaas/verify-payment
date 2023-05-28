@@ -5,7 +5,7 @@ createApp({
         const status = ref(null)
         const action = ref("Verfying Payment")
         const id = ref("")
-        const errorMessage = ref("")
+        const errorMessage = ref(null)
         let response;
 
         watchEffect(() => {
