@@ -3,15 +3,15 @@ import { createApp, onMounted, ref, watchEffect } from 'https://unpkg.com/vue@3/
 createApp({
     setup() {
         const status = ref(null)
-        const action = ref("Verfying Payment")
+        const action = ref("Verifying Payment")
         const id = ref("")
         const errorMessage = ref(null)
-        let response;
 
         watchEffect(() => {
             if (status) {
                 setTimeout(() => {
                     status.value = null
+                    errorMessage.value = null
                 }, 10000)
             }
         })
@@ -30,24 +30,37 @@ createApp({
             id.value = params.id
 
             try {
-                response = await axios.post("https://smiling-jay-houndstooth.cyclic.app/api/v1/auth", {
+                const response = await axios.post(params.api, { transactionId: id.value })
 
-                    "password": "123456789", "email": "fiyinfoluwa2@gmail.com"
+                if (response.status === 200) {
+                    status.value = 'success'
+                    action.value = "Redirecting"
+                    // Redirect here
+                    setTimeout(() => {
+                        window.open(params?.redirectSuccess, "_self")
+                    }, 5000)
 
-                })
+                } else {
 
-                // window.open(params?.redirect, "_self")
+                    status.value = 'failed'
+                    errorMessage.value = "Failed To Verify Code Try Again"
+                    action.value = "Redirecting"
+                    // Redirect here
+                    setTimeout(() => {
+                        window.open(params?.redirectFailed, "_self")
+                    }, 5000)
 
-                console.log(response, params.redirect)
+                }
+
             } catch (error) {
                 status.value = 'failed'
                 errorMessage.value = "Failed To Verify Code Try Again"
+                action.value = "Redirecting"
                 // Redirect here
-                console.log(error)
+                setTimeout(() => {
+                    window.open(params?.redirectFailed, "_self")
+                }, 5000)
             }
-
-
-            console.log(params)
         })
         return {
             id,

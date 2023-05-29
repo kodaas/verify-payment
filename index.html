@@ -1,87 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .v-enter-active,
-        .v-leave-active {
-            transition: transform 0.2s ease;
-            transform: translateY(0%);
-            opacity: 1;
-        }
+      .v-enter-active,
+      .v-leave-active {
+        transition: transform 0.2s ease;
+        transform: translateY(0%);
+        opacity: 1;
+      }
 
-        .v-enter-from,
-        .v-leave-to {
-            transition: transform 0.2s ease;
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-        .alert {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
+      .v-enter-from,
+      .v-leave-to {
+        transition: transform 0.2s ease;
+        transform: translateY(-100%);
+        opacity: 0;
+      }
     </style>
     <title>Verify Payment</title>
-</head>
+  </head>
 
-<body class="relative bg-gray-50 grid place-items-center h-screen p-5">
-    <main id="main" class="inline-block w-full md:w-[500px] p-8 rounded-2xl shadow-lg bg-white text-center">
+  <body class="relative bg-gray-50 grid place-items-center h-screen p-5">
+    <main
+      id="main"
+      class="inline-block w-full md:w-[500px] p-8 rounded-2xl shadow-lg bg-white text-center"
+    >
+      <p class="text-red-500 uppercase text-lg pt-5">
+        🚫 Do not close or refresh this page
+      </p>
 
-        <p class="text-red-500 uppercase text-lg pt-5">🚫 Do not close or refresh this page</p>
+      <img class="mx-auto w-10 h-10 m-10" src="./loader.svg" alt="..." />
 
-        <img class="mx-auto w-10 h-10 m-10" src="./loader.svg" alt="...">
+      <p class="py-4 text-xl">Payment ID: {{ id }}</p>
 
-        <p class="py-4 text-xl">Payment ID: {{ id }}</p>
+      <p class="py-4 mt-3 text-lg">
+        Please Wait. <br />
+        <span class="text-xl font-medium">
+          {{ action }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="inline"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="4" cy="12" r="3" fill="currentColor">
+              <animate
+                id="svgSpinners3DotsFade0"
+                fill="freeze"
+                attributeName="opacity"
+                begin="0;svgSpinners3DotsFade1.end-0.25s"
+                dur="0.75s"
+                values="1;.2"
+              />
+            </circle>
+            <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".4">
+              <animate
+                fill="freeze"
+                attributeName="opacity"
+                begin="svgSpinners3DotsFade0.begin+0.15s"
+                dur="0.75s"
+                values="1;.2"
+              />
+            </circle>
+            <circle cx="20" cy="12" r="3" fill="currentColor" opacity=".3">
+              <animate
+                id="svgSpinners3DotsFade1"
+                fill="freeze"
+                attributeName="opacity"
+                begin="svgSpinners3DotsFade0.begin+0.3s"
+                dur="0.75s"
+                values="1;.2"
+              />
+            </circle>
+          </svg>
+        </span>
+      </p>
 
-        <p class="py-4 mt-3 text-lg">Please Wait. <br /> <span class="text-xl font-medium"> {{ action }} <svg
-                    xmlns="http://www.w3.org/2000/svg" class="inline" width="32" height="32" viewBox="0 0 24 24">
-                    <circle cx="4" cy="12" r="3" fill="currentColor">
-                        <animate id="svgSpinners3DotsFade0" fill="freeze" attributeName="opacity"
-                            begin="0;svgSpinners3DotsFade1.end-0.25s" dur="0.75s" values="1;.2" />
-                    </circle>
-                    <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".4">
-                        <animate fill="freeze" attributeName="opacity" begin="svgSpinners3DotsFade0.begin+0.15s"
-                            dur="0.75s" values="1;.2" />
-                    </circle>
-                    <circle cx="20" cy="12" r="3" fill="currentColor" opacity=".3">
-                        <animate id="svgSpinners3DotsFade1" fill="freeze" attributeName="opacity"
-                            begin="svgSpinners3DotsFade0.begin+0.3s" dur="0.75s" values="1;.2" />
-                    </circle>
-                </svg> </span></p>
+      <p class="text-sm">© {{ new Date().getFullYear() }}</p>
 
-        <p class="text-sm">© {{ new Date().getFullYear() }}</p>
+      <Transition mode="out-in">
+        <span
+          v-if="status && status === 'success'"
+          class="absolute w-full top-0 left-0 p-10"
+        >
+          <span
+            class="p-5 text-left bg-green-100 text-green-500 my-1 rounded-lg border border-green-600"
+          >
+            <svg
+              class="fill-green-500 mr-3 inline w-5 h-5"
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="m11 17.768l-4.884-4.884l1.768-1.768L11 14.232l8.658-8.658A9.98 9.98 0 0 0 12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10a9.94 9.94 0 0 0-.966-4.266L11 17.768z"
+              />
+            </svg>
+            Payment Successful
+          </span>
+        </span>
+      </Transition>
 
-        <Transition mode="out-in">
-            <span v-if="status && status === 'success'" class="absolute alert w-full top-0 left-0 p-10">
-                <span class="p-5 text-left bg-green-100 text-green-500 my-1 rounded-lg border border-green-600">
-                    <svg class="fill-green-500 mr-3 inline w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="32"
-                        height="32" viewBox="0 0 24 24">
-                        <path
-                            d="m11 17.768l-4.884-4.884l1.768-1.768L11 14.232l8.658-8.658A9.98 9.98 0 0 0 12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10a9.94 9.94 0 0 0-.966-4.266L11 17.768z" />
-                    </svg>
-                    Payment Successful
-                </span>
-            </span>
-        </Transition>
-
-
-        <Transition mode="out-in">
-            <span v-if="status && status === 'failed'" class="absolute alert w-full top-0 left-0 p-10">
-                <span class="p-5 text-left bg-red-100 text-red-500 my-1 rounded-lg border border-red-600">
-                    🚫 {{ errorMessage }}
-                </span>
-            </span>
-        </Transition>
-
+      <Transition mode="out-in">
+        <span
+          v-if="status && status === 'failed'"
+          class="absolute w-full top-0 left-0 p-10"
+        >
+          <span
+            class="p-5 text-left bg-red-100 text-red-500 my-1 rounded-lg border border-red-600"
+          >
+            🚫 {{ errorMessage }}
+          </span>
+        </span>
+      </Transition>
     </main>
 
-
-    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.js"></script>
+    <script
+      type="module"
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.js"
+    ></script>
     <script type="module" src="index.js"></script>
-</body>
-
+  </body>
 </html>
