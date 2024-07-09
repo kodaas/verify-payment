@@ -5,7 +5,9 @@ createApp({
         const status = ref(null)
         const action = ref("Verifying Payment")
         const id = ref("")
+        const tag = ref("")
         const errorMessage = ref(null)
+        const successMessage = ref("Verification Initiated")
 
         watchEffect(() => {
             if (status) {
@@ -28,11 +30,13 @@ createApp({
             }
 
             id.value = params.id
+            tag.value = params.tag
 
             try {
-                const response = await axios.post(params.api, { transactionId: id.value })
+                const response = await axios.post(params.api, { transactionId: id.value, tag: tag.value })
 
                 if (response.status === 200) {
+                    successMessage.value = "Payment Verified"
                     status.value = 'success'
                     action.value = "Redirecting"
                     // Redirect here
