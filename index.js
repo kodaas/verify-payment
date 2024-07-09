@@ -70,7 +70,9 @@ createApp({
             id,
             status,
             action,
-            errorMessage
+            errorMessage,
+            tag,
+            successMessage
         }
     }
 }).mount('#main')
