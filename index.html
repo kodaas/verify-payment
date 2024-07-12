@@ -35,6 +35,7 @@
       <img class="mx-auto w-10 h-10 m-10" src="./loader.svg" alt="..." />
 
       <p class="py-4 text-xl">Payment ID: {{ id }}</p>
+      <p class="py-4 text-xl">Payment Type: <span class="uppercase">{{ tag }}</span></p>
 
       <p class="py-4 mt-3 text-lg">
         Please Wait. <br />
@@ -82,6 +83,21 @@
 
       <p class="text-sm">© {{ new Date().getFullYear() }}</p>
 
+      
+
+      <Transition mode="out-in">
+        <span
+          v-if="status && status === 'failed'"
+          class="absolute w-full top-0 left-0 p-10"
+        >
+          <span
+            class="p-5 text-left bg-red-100 text-red-500 my-1 rounded-lg border border-red-600"
+          >
+            🚫 {{ errorMessage }}
+          </span>
+        </span>
+      </Transition>
+
       <Transition mode="out-in">
         <span
           v-if="status && status === 'success'"
@@ -101,20 +117,7 @@
                 d="m11 17.768l-4.884-4.884l1.768-1.768L11 14.232l8.658-8.658A9.98 9.98 0 0 0 12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10a9.94 9.94 0 0 0-.966-4.266L11 17.768z"
               />
             </svg>
-            Payment Successful
-          </span>
-        </span>
-      </Transition>
-
-      <Transition mode="out-in">
-        <span
-          v-if="status && status === 'failed'"
-          class="absolute w-full top-0 left-0 p-10"
-        >
-          <span
-            class="p-5 text-left bg-red-100 text-red-500 my-1 rounded-lg border border-red-600"
-          >
-            🚫 {{ errorMessage }}
+            {{ successMessage }}
           </span>
         </span>
       </Transition>
